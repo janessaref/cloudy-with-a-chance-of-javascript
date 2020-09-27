@@ -13,25 +13,33 @@ $("#searchBtn").on("click", function() {
 
     let searchCity = $("#searchInput").val();
     console.log(searchCity);
+
     $("#addCityBtn").prepend("<button type=\"button\" class=\"list-group-item list-group-item-action\">" + searchCity + "</button>");
+    currentWeather();
+
+});
 
 
-    var APIKey = "57f6ffb5470a18032bfd1ed78472b303";
+function currentWeather() {
+    let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
     let cityNameInput = $("#searchInput").val();
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&appid=" + APIKey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&appid=" + APIKey;
 
+    // let apiMainBox = "";
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        $("#temp").append(response.main.temp);
-        $("#windspeed").append(response.wind.speed);
-        $("#humidity").append(response.main.humidity);
-        $("#city").append(response.name);
+        var farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
+        let twodecimalF = farenheit.toFixed(2);
+        $("#city").text(response.name);
+        $("#temp").text("Temperature: " + twodecimalF + " F");
+        $("#humidity").text("Humidity: " + response.main.humidity + "%");
+        $("#windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
+
+
 
 
     });
-
-
-})
+};
