@@ -24,19 +24,76 @@
                 <nav class="navbar navbar-light bg-light">
                     <form class="form-inline">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                          </svg></button>
+
                     </form>
                 </nav>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">
                 </li>
             </ul>
         </div>
     </nav>
     <div class="container">
-        <div class="card col-md-9 float-right mr-5 mt-5">
-            <div class="card-body">
-                This is some text within a card body.
+        <div class="row">
+            <div class="card col-md-10 float-right ml-5 mx-auto pl-0 mt-5 w-100 p-3 mainbox">
+                <div class="card-body w-100">
+                    <h2 class="mb-5">City</h2>
+                    <ul>
+                        <li class="mb-3 ml-0">Temperature:</li>
+                        <li class="mb-3 ml-0"> Humidity:</li>
+                        <li class="mb-3 ml-0">Wind Speed:</li>
+                        <li class="mb-3 ml-0">UV Index:</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 5 Day Forecast Text -->
+        <div class="row">
+            <div class="col-md-10 float-right mx-auto mt-5">
+                <div class="card-body">
+                    <h2>5-Day Forecast</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Add cards for 5 day forecast -->
+        <div class="row">
+            <div class="card text-white bg-info mb-3 col-md-2 ml-5" style="max-width: 13rem;">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+            <div class="card text-white bg-info mb-3 mx-auto col-md-2" style="max-width: 13rem;">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+            <div class="card text-white bg-info mb-3 mx-auto col-md-2" style="max-width: 13rem;">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+            <div class="card text-white bg-info mb-3 mx-auto col-md-2" style="max-width: 13rem;">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+            <div class="card text-white bg-info mb-3 mx-auto col-md-2" style="max-width: 13rem;">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Info card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
             </div>
         </div>
     </div>
