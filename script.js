@@ -6,7 +6,18 @@
 */
 
 
+let cityArray = [];
+// let newCityBtn = $(".newCity");
+// console.log(newCityBtn.length);
 
+let saveCityName = JSON.parse(localStorage.getItem("cityArray"));
+console.log(saveCityName)
+if (saveCityName !== null) {
+    for (let i = 0; i < cityArray.length; i++) {
+        cityArray[i].value = cityArray[i];
+        // $("#addCityBtn")(cityArray[i]);
+    };
+};
 
 // Search button event listener
 $("#searchBtn").on("click", function() {
@@ -14,9 +25,20 @@ $("#searchBtn").on("click", function() {
     let searchCity = $("#searchInput").val();
     console.log(searchCity);
 
-    $("#addCityBtn").prepend("<button type=\"button\" class=\"list-group-item list-group-item-action\">" + searchCity + "</button>");
+    $("#addCityBtn").prepend("<button type=\"button\" class=\"list-group-item list-group-item-action newCity\">" + searchCity + "</button>");
     currentWeather();
 
+    // let cityName = $("#searchInput");
+    // allows the field/textarea to be empty
+    // cityArray = [];
+
+    // pushes values into the array saveToDo
+    // for (var j = 0; j < cityName.length; j++) {
+    //     cityArray.push(cityName[j].value);
+    // };
+    cityArray.push(searchCity);
+
+    localStorage.setItem("cityArray", JSON.stringify(cityArray));
 });
 
 
@@ -31,7 +53,7 @@ function currentWeather() {
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        var farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
+        let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
         let twodecimalF = farenheit.toFixed(2);
         $("#city").text(response.name);
         $("#temp").text("Temperature: " + twodecimalF + " F");
@@ -40,6 +62,9 @@ function currentWeather() {
 
 
 
-
     });
+    let latCity = "";
+    let lonCity = "";
+
+    let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + "&lon=" + "&appid=" + APIKey;
 };
