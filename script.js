@@ -28,10 +28,7 @@ $("#searchBtn").on("click", function(event) {
     console.log(searchCity);
 
     renderButtons();
-
     currentWeather();
-
-
     // let cityName = $("#searchInput");
     // allows the field/textarea to be empty
     // cityArray = [];
@@ -45,38 +42,27 @@ $("#searchBtn").on("click", function(event) {
     localStorage.setItem("cityArray", JSON.stringify(cityArray));
 });
 
-
 function currentWeather() {
     let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
     let cityNameInput = $("#searchInput").val();
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&appid=" + APIKey;
-
-
-
-
-    // let apiMainBox = "";
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
 
-
-
         let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
         let twodecimalF = farenheit.toFixed(2);
-        $("#city").text(response.name + " " + moment().subtract(10, 'days').calendar());
+        $("#city").text(response.name + " " + moment().format("(M/DD/YYYY)"));
         $("#temp").text("Temperature: " + twodecimalF + " F");
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
         $("#windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
-
-
 
         let coordLon = response.coord.lon;
         let coordLat = response.coord.lat;
 
         let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordLat + "&lon=" + coordLon + "&appid=" + APIKey;
-
 
         $.ajax({
             url: uvURL,
@@ -84,25 +70,9 @@ function currentWeather() {
         }).then(function(response) {
 
             $("#uvindex").text("UV Index: " + response.value);
-
-
-
         });
-
-
-
     });
-
-
-
-
 };
-// let latCity = "";
-// let lonCity = "";
-
-
-
-// $(document).on("click",)
 
 
 function clickButtons() {
@@ -135,13 +105,6 @@ function clickButtons() {
         let wSpeedLi = $("<li class=\"mb-3 ml-0\">").text("Wind Speed: " + wSpeed + " MPH");
         cityDiv.append(wSpeedLi);
         $("#current-weather").prepend(cityDiv);
-
-
-        // $("#city").text(response.name);
-        // $("#temp").text("Temperature: " + twodecimalF + " F");
-        // $("#humidity").text("Humidity: " + response.main.humidity + "%");
-        // $("#windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
-
     });
 
 }
@@ -162,10 +125,8 @@ function renderButtons() {
         console.log(cityBtn);
         $("#addCityBtn").prepend(cityBtn);
 
-    }
+    };
 
-
-}
-
+};
 
 $(document).on("click", ".newCityBtn", clickButtons);
