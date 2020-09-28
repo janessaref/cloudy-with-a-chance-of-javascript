@@ -20,13 +20,16 @@ if (saveCityName !== null) {
 };
 
 // Search button event listener
-$("#searchBtn").on("click", function() {
+$("#searchBtn").on("click", function(event) {
+    event.preventDefault();
 
-    let searchCity = $("#searchInput").val();
+    // grabs the input value from the search bar
+    let searchCity = $("#searchInput").val().trim();
     console.log(searchCity);
+    renderButtons();
 
-    $("#addCityBtn").prepend("<button type=\"button\" class=\"list-group-item list-group-item-action newCity\">" + searchCity + "</button>");
     currentWeather();
+
 
     // let cityName = $("#searchInput");
     // allows the field/textarea to be empty
@@ -63,8 +66,76 @@ function currentWeather() {
 
 
     });
-    let latCity = "";
-    let lonCity = "";
+    // let latCity = "";
+    // let lonCity = "";
 
-    let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + "&lon=" + "&appid=" + APIKey;
+    // let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + "&lon=" + "&appid=" + APIKey;
 };
+
+// $(document).on("click",)
+
+
+function clickButtons() {
+    let cityInfo = $(this).attr("data-name");
+
+    let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
+    // let cityBtnSide = $("#searchInput").val();
+    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInfo + "&appid=" + APIKey;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        let cityDiv = $("<div class=\"citysave\">");
+        let nameofCity = response.name;
+        let cityH2 = $("<h2>").text(nameofCity);
+        cityDiv.append(cityH2);
+
+        let tempF = (((response.main.temp) - 273.15) * 1.80 + 32).toFixed(2);
+        // let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
+        // let twodecimalF = farenheit.toFixed(2);
+        let tempLi = $("<li class=\"mb-3 ml-0\">").text("Temperature: " + tempF + " F");
+        cityDiv.append(tempLi);
+
+        let humid = response.main.humidity
+        let humidLi = $("<li class=\"mb-3 ml-0\">").text("Humidity: " + humid + " %");
+        cityDiv.append(humidLi);
+
+        let wSpeed = response.wind.speed
+        let wSpeedLi = $("<li class=\"mb-3 ml-0\">").text("Wind Speed: " + wSpeed + " MPH");
+        cityDiv.append(wSpeedLi);
+        $("#current-weather").prepend(cityDiv);
+
+
+        // $("#city").text(response.name);
+        // $("#temp").text("Temperature: " + twodecimalF + " F");
+        // $("#humidity").text("Humidity: " + response.main.humidity + "%");
+        // $("#windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
+
+    });
+
+}
+
+function renderButtons() {
+
+    $("#addCityBtn").empty();
+
+    for (var j = 0; j < cityArray.length; j++) {
+
+        let cityBtn = $("<button>");
+        cityBtn.addClass("newCityBtn");
+        cityBtn.addClass("list-group-item");
+        cityBtn.addClass("list-group-item-action");
+        cityBtn.attr("type", "button");
+        cityBtn.attr("data-name", cityArray[j]);
+        cityBtn.text(cityArray[j]);
+        console.log(cityBtn);
+        $("#addCityBtn").prepend(cityBtn);
+
+    }
+
+
+}
+
+
+$(document).on("click", ".newCityBtn", clickButtons);
