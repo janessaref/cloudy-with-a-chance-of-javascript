@@ -26,6 +26,7 @@ $("#searchBtn").on("click", function(event) {
     // grabs the input value from the search bar
     let searchCity = $("#searchInput").val().trim();
     console.log(searchCity);
+
     renderButtons();
 
     currentWeather();
@@ -50,12 +51,18 @@ function currentWeather() {
     let cityNameInput = $("#searchInput").val();
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&appid=" + APIKey;
 
+
+
+
     // let apiMainBox = "";
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
+
+
+
         let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
         let twodecimalF = farenheit.toFixed(2);
         $("#city").text(response.name);
@@ -65,12 +72,35 @@ function currentWeather() {
 
 
 
-    });
-    // let latCity = "";
-    // let lonCity = "";
+        let coordLon = response.coord.lon;
+        let coordLat = response.coord.lat;
 
-    // let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + "&lon=" + "&appid=" + APIKey;
+        let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordLat + "&lon=" + coordLon + "&appid=" + APIKey;
+
+
+        $.ajax({
+            url: uvURL,
+            method: "GET"
+        }).then(function(response) {
+
+            $("#uvindex").text("UV Index: " + response.value);
+
+
+
+        });
+
+
+
+    });
+
+
+
+
 };
+// let latCity = "";
+// let lonCity = "";
+
+
 
 // $(document).on("click",)
 
