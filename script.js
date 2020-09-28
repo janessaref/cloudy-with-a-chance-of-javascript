@@ -65,7 +65,7 @@ function currentWeather() {
 
         let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
         let twodecimalF = farenheit.toFixed(2);
-        $("#city").text(response.name);
+        $("#city").text(response.name + " " + moment().subtract(10, 'days').calendar());
         $("#temp").text("Temperature: " + twodecimalF + " F");
         $("#humidity").text("Humidity: " + response.main.humidity + "%");
         $("#windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
