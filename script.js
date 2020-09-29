@@ -13,11 +13,13 @@ let cityArray = [];
 let saveCityName = JSON.parse(localStorage.getItem("cityArray"));
 console.log(saveCityName)
 if (saveCityName !== null) {
-    for (let i = 0; i < cityArray.length; i++) {
-        cityArray = saveCityName;
-        // $("#addCityBtn").prepend(cityArray[i]);
-    };
+    // for (let i = 0; i < cityArray.length; i++) {
+    cityArray = saveCityName;
+    // };
+    // $("#addCityBtn").prepend(cityArray);
+    renderButtons();
 };
+
 
 // Search button event listener
 $("#searchBtn").on("click", function(event) {
