@@ -15,7 +15,7 @@ console.log(saveCityName)
 if (saveCityName !== null) {
     for (let i = 0; i < cityArray.length; i++) {
         cityArray[i].value = cityArray[i];
-        // $("#addCityBtn")(cityArray[i]);
+        // $("#addCityBtn").prepend(cityArray[i]);
     };
 };
 
@@ -24,10 +24,9 @@ $("#searchBtn").on("click", function(event) {
     event.preventDefault();
 
     // grabs the input value from the search bar
-    let searchCity = $("#searchInput").val().trim();
+    let searchCity = $("#searchInput").val();
     console.log(searchCity);
 
-    renderButtons();
     currentWeather();
     // let cityName = $("#searchInput");
     // allows the field/textarea to be empty
@@ -45,22 +44,32 @@ $("#searchBtn").on("click", function(event) {
 function currentWeather() {
     let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
     let cityNameInput = $("#searchInput").val();
-    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityNameInput + "&appid=" + APIKey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityNameInput + "&appid=" + APIKey;
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
 
-        let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
+        let farenheit = ((response.list[3].main.temp) - 273.15) * 1.80 + 32;
         let twodecimalF = farenheit.toFixed(2);
-        $("#city").text(response.name + " " + moment().format("(M/DD/YYYY)"));
+        $("#city").text(response.city.name + " " + moment().format("(M/DD/YYYY)"));
         $("#temp").text("Temperature: " + twodecimalF + " F");
-        $("#humidity").text("Humidity: " + response.main.humidity + "%");
-        $("#windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
+        $("#humidity").text("Humidity: " + response.list[3].main.humidity + "%");
+        $("#windspeed").text("Wind Speed: " + response.list[3].wind.speed + " MPH");
 
-        let coordLon = response.coord.lon;
-        let coordLat = response.coord.lat;
+        let coordLon = response.city.coord.lon;
+        let coordLat = response.city.coord.lat;
+        let wIcon = response.list[3].weather[0].icon;
+        let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
+        let wDescription = response.list[3].weather[0].description;
+        console.log(wDescription);
+
+        var imgTag = $("<img>");
+        imgTag.attr("src", iconLink);
+        imgTag.attr("style", "height:60px; width: 60px");
+        imgTag.attr("alt", wDescription);
+        $("#city").append(imgTag);
 
         let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordLat + "&lon=" + coordLon + "&appid=" + APIKey;
 
@@ -68,13 +77,13 @@ function currentWeather() {
             url: uvURL,
             method: "GET"
         }).then(function(response) {
-
+            renderButtons();
             $("#uvindex").text("UV Index: " + response.value);
         });
     });
 };
 
-
+// need to change url to forecast and change response
 function clickButtons() {
     let cityInfo = $(this).attr("data-name");
 
@@ -92,15 +101,11 @@ function clickButtons() {
         cityDiv.append(cityH2);
 
         let tempF = (((response.main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        // let farenheit = ((response.main.temp) - 273.15) * 1.80 + 32;
-        // let twodecimalF = farenheit.toFixed(2);
         let tempLi = $("<li class=\"mb-3 ml-0\">").text("Temperature: " + tempF + " F");
         cityDiv.append(tempLi);
-
         let humid = response.main.humidity
         let humidLi = $("<li class=\"mb-3 ml-0\">").text("Humidity: " + humid + " %");
         cityDiv.append(humidLi);
-
         let wSpeed = response.wind.speed
         let wSpeedLi = $("<li class=\"mb-3 ml-0\">").text("Wind Speed: " + wSpeed + " MPH");
         cityDiv.append(wSpeedLi);
@@ -128,5 +133,9 @@ function renderButtons() {
     };
 
 };
+
+function forecastFive() {
+
+}
 
 $(document).on("click", ".newCityBtn", clickButtons);
