@@ -33,34 +33,35 @@ ul {
 .green {
     background-color: #299500;
     color: white;
-    border-style: solid 2px;
     border-color: #299500;
 }
 
 .yellow {
     background-color: #F8E500;
     color: black;
-    border-style: solid 2px;
     border-color: #F8E500;
 }
 
 .orange {
     background-color: #F95901;
     color: white;
-    border-style: solid 2px;
     border-color: #F95901;
 }
 
 .red {
     background-color: #F95901;
     color: white;
-    border-style: solid 2px;
     border-color: #F95901;
 }
 
 .purple {
     background-color: #6C49Cb;
     color: white;
-    border-style: solid 2px;
     border-color: #6C49Cb;
+}
+
+#uvbutton {
+    /* height: 80px;
+    width: 80px; */
+    border-style: solid 2px;
 }

@@ -8,11 +8,12 @@
 
 let cityArray = [];
 
-let saveCityName = JSON.parse(localStorage.getItem("cityArray"));
-console.log(saveCityName)
-if (saveCityName !== null) {
-    cityArray = saveCityName;
+let saveCityNames = JSON.parse(localStorage.getItem("cityArray"));
+console.log(saveCityNames)
+if (saveCityNames !== null) {
+    cityArray = saveCityNames;
     renderButtons();
+    currentWeather(cityArray[cityArray.length - 1])
 };
 
 
@@ -21,14 +22,17 @@ $("#searchBtn").on("click", function(event) {
     event.preventDefault();
 
     // grabs the input value from the search bar
-    let searchCity = $("#searchInput").val();
+    let searchCity = $("#searchInput").val().trim();
 
     if (searchCity == null) {
         alert("invalid");
+        $("#searchInput").focus()
+    }
+    if (searchCity == cityArray.value) {
+
     }
 
-    currentWeather();
-    forecastFive();
+    currentWeather(searchCity);
     $("#removeBtn").remove();
 
     cityArray.push(searchCity);
@@ -37,9 +41,8 @@ $("#searchBtn").on("click", function(event) {
     $("#searchInput").val("");
 });
 
-function currentWeather() {
+function currentWeather(cityNameInput) {
     let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
-    let cityNameInput = $("#searchInput").val();
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityNameInput + "&appid=" + APIKey;
 
     $.ajax({
@@ -74,11 +77,11 @@ function currentWeather() {
             method: "GET"
         }).then(function(response) {
             renderButtons();
-            var uvBtn = $("<button>");
+            var uvBtn = $("#uvbutton");
             uvBtn.html(response.value);
-            uvBtn.attr("style", "height:80px");
-            uvBtn.attr("style", "width:80px");
-            uvBtn.attr("id", "removeBtn");
+            // uvBtn.attr("style", "height:80px");
+            // uvBtn.attr("style", "width:80px");
+            // uvBtn.attr("id", "removeBtn");
 
 
             // $("#uvindex").text("UV Index: " + response.value);
@@ -100,42 +103,21 @@ function currentWeather() {
 
         });
     });
+    forecastFive(cityNameInput);
 };
 
 // need to change url to forecast and change response
 function clickButtons() {
     let cityInfo = $(this).attr("data-name");
-
-    let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
-    // let cityBtnSide = $("#searchInput").val();
-    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInfo + "&appid=" + APIKey;
-
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function(response) {
-        let cityDiv = $("<div class=\"citysave\">");
-        let nameofCity = response.name;
-        let cityH2 = $("<h2>").text(nameofCity);
-        cityDiv.append(cityH2);
-
-        let tempF = (((response.main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        let tempLi = $("<li class=\"mb-3 ml-0\">").text("Temperature: " + tempF + " F");
-        cityDiv.append(tempLi);
-        let humid = response.main.humidity
-        let humidLi = $("<li class=\"mb-3 ml-0\">").text("Humidity: " + humid + " %");
-        cityDiv.append(humidLi);
-        let wSpeed = response.wind.speed
-        let wSpeedLi = $("<li class=\"mb-3 ml-0\">").text("Wind Speed: " + wSpeed + " MPH");
-        cityDiv.append(wSpeedLi);
-        $("#current-weather").prepend(cityDiv);
-    });
-
+    currentWeather(cityInfo);
 }
 
 function renderButtons() {
 
     $("#addCityBtn").empty();
+
+    let uniqueSet = new Set(cityArray);
+    cityArray = [...uniqueSet];
 
     for (var j = 0; j < cityArray.length; j++) {
 
@@ -153,8 +135,11 @@ function renderButtons() {
 
 };
 
-function forecastFive() {
-    let cityNameInput = $("#searchInput").val();
+function dailyForecast(num, weatherInfo) {
+    let dateEl = "#date" + num;
+}
+
+function forecastFive(cityNameInput) {
 
     let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityNameInput + "&appid=" + APIKey;
@@ -163,10 +148,16 @@ function forecastFive() {
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-
-        let wIcon = response.list[3].weather[0].icon;
+        console.log(response);
+        let wIcon = response.list[0].weather[0].icon;
         let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
         let wDescription = response.list[0].weather[0].description;
+
+        let responseNum = 0;
+        for (let i = 1; i <= 5; i++) {
+            dailyForecast(i, response.list[responseNum]);
+            responseNum += 8;
+        }
 
         // DAY ONE
         $("#date1").text(moment().format("(M/DD/YYYY)"));
@@ -233,10 +224,6 @@ function forecastFive() {
 
 
     });
-
-}
-
-function uvColorIndex() {
 
 }
 
