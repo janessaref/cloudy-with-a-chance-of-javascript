@@ -29,6 +29,7 @@ $("#searchBtn").on("click", function(event) {
 
     currentWeather();
     forecastFive();
+    $("#removeBtn").remove();
 
     cityArray.push(searchCity);
 
@@ -77,6 +78,7 @@ function currentWeather() {
             uvBtn.html(response.value);
             uvBtn.attr("style", "height:80px");
             uvBtn.attr("style", "width:80px");
+            uvBtn.attr("id", "removeBtn");
 
 
             // $("#uvindex").text("UV Index: " + response.value);
