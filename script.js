@@ -81,7 +81,29 @@ function currentWeather() {
             method: "GET"
         }).then(function(response) {
             renderButtons();
-            $("#uvindex").text("UV Index: " + response.value);
+            var uvBtn = $("<button>");
+            uvBtn.html(response.value);
+            uvBtn.attr("style", "height:80px");
+            uvBtn.attr("style", "width:80px");
+
+
+            // $("#uvindex").text("UV Index: " + response.value);
+
+            var uvNumber = +response.value;
+
+            if (uvNumber >= 11) {
+                uvBtn.addClass("purple");
+            } else if (uvNumber >= 8 && uvNumber < 11) {
+                uvBtn.addClass("red");
+            } else if (uvNumber >= 6 && uvNumber < 8) {
+                uvBtn.addClass("orange");
+            } else if (uvNumber >= 3 && uvNumber < 6) {
+                uvBtn.addClass("yellow");
+            } else if (uvNumber >= 0 && uvNumber < 3) {
+                uvBtn.addClass("green");
+            }
+            $("#uvindex").append(uvBtn);
+
         });
     });
 };
@@ -217,6 +239,10 @@ function forecastFive() {
 
 
     });
+
+}
+
+function uvColorIndex() {
 
 }
 
