@@ -14,7 +14,7 @@ let saveCityName = JSON.parse(localStorage.getItem("cityArray"));
 console.log(saveCityName)
 if (saveCityName !== null) {
     for (let i = 0; i < cityArray.length; i++) {
-        cityArray[i].value = cityArray[i];
+        cityArray = saveCityName;
         // $("#addCityBtn").prepend(cityArray[i]);
     };
 };
@@ -28,6 +28,7 @@ $("#searchBtn").on("click", function(event) {
     console.log(searchCity);
 
     currentWeather();
+    forecastFive();
     // let cityName = $("#searchInput");
     // allows the field/textarea to be empty
     // cityArray = [];
@@ -135,7 +136,94 @@ function renderButtons() {
 };
 
 function forecastFive() {
+    let cityNameInput = $("#searchInput").val();
+
+    let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityNameInput + "&appid=" + APIKey;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+
+        let wIcon = response.list[3].weather[0].icon;
+        let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
+        let wDescription = response.list[0].weather[0].description;
+
+        // DAY ONE
+        $("#date1").text(moment().format("(M/DD/YYYY)"));
+
+        $("#icon1").attr("src", iconLink);
+        $("#icon1").attr("style", "height:80px; width:80px");
+        $("#icon1").attr("alt", wDescription);
+
+        let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
+        $("#temp1").text("Temp: " + tempF);
+
+        $("#humidity1").text("Humidity: " + response.list[0].main.humidity + " %");
+
+        // // DAY TWO
+        // $("#date2").text(response.list[0].dt_text);
+
+        // $("#icon2").attr("src", iconLink);
+        // $("#icon2").attr("style", "height:60px; width:60px");
+        // $("#icon2").attr("alt", wDescription);
+
+        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
+        // $("#temp2").text("Temp: " + tempF);
+
+        // $("#humidity2").text("Humidity: " + response.list[0].main.humidity + " %");
+
+
+        // // DAY THREE
+        // $("#date3").text(response.list[0].dt_text);
+
+        // $("#icon3").attr("src", iconLink);
+        // $("#icon3").attr("style", "height:60px; width:60px");
+        // $("#icon3").attr("alt", wDescription);
+
+        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
+        // $("#temp3").text("Temp: " + tempF);
+
+        // $("#humidity3").text("Humidity: " + response.list[0].main.humidity + " %");
+
+
+        // // DAY FOUR
+        // $("#date4").text(response.list[0].dt_text);
+
+        // $("#icon4").attr("src", iconLink);
+        // $("#icon4").attr("style", "height:60px; width:60px");
+        // $("#icon4").attr("alt", wDescription);
+
+        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
+        // $("#temp4").text("Temp: " + tempF);
+
+        // $("#humidity4").text("Humidity: " + response.list[0].main.humidity + " %");
+
+
+        // //DAY FIVE
+        // $("#date5").text(response.list[0].dt_text);
+
+        // $("#icon5").attr("src", iconLink);
+        // $("#icon5").attr("style", "height:60px; width:60px");
+        // $("#icon5").attr("alt", wDescription);
+
+        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
+        // $("#temp5").text("Temp: " + tempF);
+
+        // $("#humidity5").text("Humidity: " + response.list[0].main.humidity + " %");
+
+
+    });
 
 }
 
 $(document).on("click", ".newCityBtn", clickButtons);
+
+
+// let divForecast = $("<div class=\"card text-white bg-info mb-3 mx-auto col-auto>");
+// divForecast.attr("style", "max-width:15rem");
+// let divBody = $("<div class=\"card-body>");
+// divForecast.append(divBody);
+
+// let pForecast = $("<p>")
