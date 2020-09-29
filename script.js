@@ -33,7 +33,7 @@ $("#searchBtn").on("click", function(event) {
     }
 
     currentWeather(searchCity);
-    $("#removeBtn").remove();
+    // $("#removeBtn").remove();
 
     cityArray.push(searchCity);
 
@@ -137,6 +137,19 @@ function renderButtons() {
 
 function dailyForecast(num, weatherInfo) {
     let dateEl = "#date" + num;
+    let iconEl = "#icon" + num;
+    let tempEl = "#temp" + num;
+    let humidEl = "#humidity" + num;
+    let dtText = new Date();
+
+    let iconLink = "http://openweathermap.org/img/wn/" + weatherInfo.weather[0].icon + "@2x.png";
+
+    $(dateEl).text(dtText.toDateString(weatherInfo.dt_txt));
+    $(iconEl).attr("src", iconLink);
+    $(iconEl).attr("style", "height:80px; width:80px");
+    $(iconEl).attr("alt", weatherInfo.weather[0].description);
+    $(tempEl).text("Temp: " + (((weatherInfo.main.temp) - 273.15) * 1.80 + 32).toFixed(2) + " F");
+    $(humidEl).text("Humidity: " + weatherInfo.main.humidity + "%");
 }
 
 function forecastFive(cityNameInput) {
@@ -149,78 +162,15 @@ function forecastFive(cityNameInput) {
         method: "GET"
     }).then(function(response) {
         console.log(response);
-        let wIcon = response.list[0].weather[0].icon;
-        let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
-        let wDescription = response.list[0].weather[0].description;
+        // let wIcon = response.list[0].weather[0].icon;
+        // let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
+        // let wDescription = response.list[0].weather[0].description;
 
         let responseNum = 0;
         for (let i = 1; i <= 5; i++) {
             dailyForecast(i, response.list[responseNum]);
             responseNum += 8;
         }
-
-        // DAY ONE
-        $("#date1").text(moment().format("(M/DD/YYYY)"));
-
-        $("#icon1").attr("src", iconLink);
-        $("#icon1").attr("style", "height:80px; width:80px");
-        $("#icon1").attr("alt", wDescription);
-
-        let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        $("#temp1").text("Temp: " + tempF);
-
-        $("#humidity1").text("Humidity: " + response.list[0].main.humidity + " %");
-
-        // // DAY TWO
-        // $("#date2").text(response.list[0].dt_text);
-
-        // $("#icon2").attr("src", iconLink);
-        // $("#icon2").attr("style", "height:60px; width:60px");
-        // $("#icon2").attr("alt", wDescription);
-
-        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        // $("#temp2").text("Temp: " + tempF);
-
-        // $("#humidity2").text("Humidity: " + response.list[0].main.humidity + " %");
-
-
-        // // DAY THREE
-        // $("#date3").text(response.list[0].dt_text);
-
-        // $("#icon3").attr("src", iconLink);
-        // $("#icon3").attr("style", "height:60px; width:60px");
-        // $("#icon3").attr("alt", wDescription);
-
-        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        // $("#temp3").text("Temp: " + tempF);
-
-        // $("#humidity3").text("Humidity: " + response.list[0].main.humidity + " %");
-
-
-        // // DAY FOUR
-        // $("#date4").text(response.list[0].dt_text);
-
-        // $("#icon4").attr("src", iconLink);
-        // $("#icon4").attr("style", "height:60px; width:60px");
-        // $("#icon4").attr("alt", wDescription);
-
-        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        // $("#temp4").text("Temp: " + tempF);
-
-        // $("#humidity4").text("Humidity: " + response.list[0].main.humidity + " %");
-
-
-        // //DAY FIVE
-        // $("#date5").text(response.list[0].dt_text);
-
-        // $("#icon5").attr("src", iconLink);
-        // $("#icon5").attr("style", "height:60px; width:60px");
-        // $("#icon5").attr("alt", wDescription);
-
-        // let tempF = (((response.list[0].main.temp) - 273.15) * 1.80 + 32).toFixed(2);
-        // $("#temp5").text("Temp: " + tempF);
-
-        // $("#humidity5").text("Humidity: " + response.list[0].main.humidity + " %");
 
 
     });
