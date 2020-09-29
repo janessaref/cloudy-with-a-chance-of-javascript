@@ -7,16 +7,11 @@
 
 
 let cityArray = [];
-// let newCityBtn = $(".newCity");
-// console.log(newCityBtn.length);
 
 let saveCityName = JSON.parse(localStorage.getItem("cityArray"));
 console.log(saveCityName)
 if (saveCityName !== null) {
-    // for (let i = 0; i < cityArray.length; i++) {
     cityArray = saveCityName;
-    // };
-    // $("#addCityBtn").prepend(cityArray);
     renderButtons();
 };
 
@@ -27,21 +22,18 @@ $("#searchBtn").on("click", function(event) {
 
     // grabs the input value from the search bar
     let searchCity = $("#searchInput").val();
-    console.log(searchCity);
+
+    if (searchCity == null) {
+        alert("invalid");
+    }
 
     currentWeather();
     forecastFive();
-    // let cityName = $("#searchInput");
-    // allows the field/textarea to be empty
-    // cityArray = [];
 
-    // pushes values into the array saveToDo
-    // for (var j = 0; j < cityName.length; j++) {
-    //     cityArray.push(cityName[j].value);
-    // };
     cityArray.push(searchCity);
 
     localStorage.setItem("cityArray", JSON.stringify(cityArray));
+    $("#searchInput").val("");
 });
 
 function currentWeather() {
