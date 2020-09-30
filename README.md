@@ -22,22 +22,22 @@ This project includes the following features:
 
 * Sidebar 
 
-    Search city input field
-    Stored search history using local storage
+    - Search city input field
+    - Stored search history using local storage
 
 * Current Weather Main Box
 
-    City with current date using moment.js and the weather icon
-    Temperature converted to Farenheit
-    Humidity
-    Wind Speed
-    UV Index color coded by the value
+    - City with current date using moment.js and the weather icon
+    - Temperature converted to Farenheit
+    - Humidity
+    - Wind Speed
+    - UV Index color coded by the value
 
 * Five Day Forecast Display
-    Date 
-    Weather Icon
-    Temperature (farenheit)
-    Humidity
+    - Date 
+    - Weather Icon
+    - Temperature (farenheit)
+    - Humidity
 
 ## Technologies Used
 
