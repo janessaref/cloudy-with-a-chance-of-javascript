@@ -1,7 +1,7 @@
 /*
 1. Use API key to grab values to display current weather
 2. local storage and preprend cities
-3. clor coding uv index
+3. color coding uv index
 4. responsive icons according to the weather
 */
 
@@ -70,11 +70,10 @@ $(document).ready(function() {
                     uvBtn.addClass("yellow");
                 } else if (uvNumber >= 0 && uvNumber < 3) {
                     uvBtn.addClass("green");
-                }
+                };
 
                 // appending the value and color
                 $("#uvindex").append(uvBtn);
-
             });
         });
 
@@ -94,7 +93,6 @@ $(document).ready(function() {
     } else if (saveCityNames == null) {
         defaultDisplay();
     };
-
 
     // search button event listener
     $("#searchBtn").on("click", function(event) {
@@ -179,7 +177,6 @@ $(document).ready(function() {
                     uvBtn.addClass("green");
                 }
                 $("#uvindex").append(uvBtn);
-
             });
         });
 
@@ -216,9 +213,7 @@ $(document).ready(function() {
             cityBtn.attr("data-name", cityArray[j]);
             cityBtn.text(cityArray[j]);
             $("#addCityBtn").prepend(cityBtn);
-
         };
-
     };
 
     // function for the five day forecast and ajax call
@@ -260,7 +255,7 @@ $(document).ready(function() {
         $(iconEl).attr("alt", weatherInfo.weather[0].description);
         $(tempEl).text("Temp: " + (((weatherInfo.main.temp) - 273.15) * 1.80 + 32).toFixed(2) + " F");
         $(humidEl).text("Humidity: " + weatherInfo.main.humidity + "%");
-    }
+    };
 
     // event listener for clear history button
     $(".clear").on("click", function() {
