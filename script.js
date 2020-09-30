@@ -9,13 +9,78 @@ $(document).ready(function() {
 
     let cityArray = [];
 
+
+    function defaultDisplay() {
+        let APIKey = "57f6ffb5470a18032bfd1ed78472b303";
+        let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + "San+Francisco" + "&appid=" + APIKey;
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+
+            let farenheit = ((response.list[3].main.temp) - 273.15) * 1.80 + 32;
+            let twodecimalF = farenheit.toFixed(2);
+            $("#city").text(response.city.name + " " + moment().format("(M/DD/YYYY)"));
+            $("#temp").text("Temperature: " + twodecimalF + " F");
+            $("#humidity").text("Humidity: " + response.list[3].main.humidity + "%");
+            $("#windspeed").text("Wind Speed: " + response.list[3].wind.speed + " MPH");
+
+            let coordLon = response.city.coord.lon;
+            let coordLat = response.city.coord.lat;
+            let wIcon = response.list[3].weather[0].icon;
+            let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
+            let wDescription = response.list[3].weather[0].description;
+            console.log(wDescription);
+
+            var imgTag = $("<img>");
+            imgTag.attr("src", iconLink);
+            imgTag.attr("style", "height:60px; width: 60px");
+            imgTag.attr("alt", wDescription);
+            $("#city").append(imgTag);
+
+            let uvURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordLat + "&lon=" + coordLon + "&appid=" + APIKey;
+
+            $.ajax({
+                url: uvURL,
+                method: "GET"
+            }).then(function(response) {
+                renderButtons();
+                var uvBtn = $("#uvbutton");
+                uvBtn.html(response.value)
+
+                var uvNumber = +response.value;
+
+                if (uvNumber >= 11) {
+                    uvBtn.addClass("purple");
+                } else if (uvNumber >= 8 && uvNumber < 11) {
+                    uvBtn.addClass("red");
+                } else if (uvNumber >= 6 && uvNumber < 8) {
+                    uvBtn.addClass("orange");
+                } else if (uvNumber >= 3 && uvNumber < 6) {
+                    uvBtn.addClass("yellow");
+                } else if (uvNumber >= 0 && uvNumber < 3) {
+                    uvBtn.addClass("green");
+                }
+                $("#uvindex").append(uvBtn);
+
+            });
+        });
+
+        $(".fiveDisplay").hide();
+        $(".forecastText").hide();
+    };
+
+
     let saveCityNames = JSON.parse(localStorage.getItem("cityArray"));
     console.log(saveCityNames)
     if (saveCityNames !== null) {
         cityArray = saveCityNames;
         renderButtons();
         currentWeather(cityArray[cityArray.length - 1])
-    };
+    } else if (saveCityNames == null) {
+        defaultDisplay();
+    }
 
 
     // Search button event listener
@@ -24,6 +89,8 @@ $(document).ready(function() {
 
         // grabs the input value from the search bar
         let searchCity = $("#searchInput").val().trim();
+        $(".fiveDisplay").show();
+        $(".forecastText").show();
 
         if (searchCity == "") {
             alert("invalid");
@@ -79,19 +146,24 @@ $(document).ready(function() {
             }).then(function(response) {
                 renderButtons();
                 var uvBtn = $("#uvbutton");
-                uvBtn.html(response.value);
+                uvBtn.html(response.value)
 
                 var uvNumber = +response.value;
 
                 if (uvNumber >= 11) {
+                    uvBtn.removeClass("red orange yellow green");
                     uvBtn.addClass("purple");
                 } else if (uvNumber >= 8 && uvNumber < 11) {
+                    uvBtn.removeClass("purple orange yellow green");
                     uvBtn.addClass("red");
                 } else if (uvNumber >= 6 && uvNumber < 8) {
+                    uvBtn.removeClass("red purple yellow green");
                     uvBtn.addClass("orange");
                 } else if (uvNumber >= 3 && uvNumber < 6) {
+                    uvBtn.removeClass("red orange purple green");
                     uvBtn.addClass("yellow");
                 } else if (uvNumber >= 0 && uvNumber < 3) {
+                    uvBtn.removeClass("red orange yellow purple");
                     uvBtn.addClass("green");
                 }
                 $("#uvindex").append(uvBtn);
@@ -105,6 +177,8 @@ $(document).ready(function() {
     function clickButtons() {
         let cityInfo = $(this).attr("data-name");
         currentWeather(cityInfo);
+        $(".fiveDisplay").show();
+        $(".forecastText").show();
     }
 
     function renderButtons() {
@@ -164,8 +238,6 @@ $(document).ready(function() {
                 dailyForecast(i, response.list[responseNum]);
                 responseNum += 8;
             }
-
-
         });
 
     }
@@ -182,3 +254,10 @@ $(document).ready(function() {
     //     }
     // }
 });
+
+// let divForecast = $("<div class=\"card text-white bg-info mb-3 mx-auto col-auto>");
+// divForecast.attr("style", "max-width:15rem");
+// let divBody = $("<div class=\"card-body>");
+// divForecast.append(divBody);
+
+// let pForecast = $("<p>")
