@@ -28,6 +28,7 @@ ul {
 #addCityBtn {
     margin-right: 10px;
     margin-left: 10px;
+    margin-top: 50px;
 }
 
 .green {
@@ -61,7 +62,11 @@ ul {
 }
 
 #uvbutton {
-    /* height: 80px;
-    width: 80px; */
     border-style: solid 2px;
+}
+
+.clear {
+    position: absolute;
+    top: 1%;
+    margin: 50px;
 }
