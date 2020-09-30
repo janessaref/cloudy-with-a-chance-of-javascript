@@ -96,9 +96,7 @@ $(document).ready(function() {
             alert("invalid");
             $("#searchInput")
         }
-        // if (searchCity == cityArray.value) {
 
-        // }
 
         currentWeather(searchCity);
         // $("#removeBtn").remove();
@@ -243,14 +241,9 @@ $(document).ready(function() {
 
     $(".clear").on("click", function() {
 
-        renderButtons.remove();
+        cityArray = [];
         localStorage.clear();
+        $(".newCityBtn").remove();
+
     });
 });
-
-// let divForecast = $("<div class=\"card text-white bg-info mb-3 mx-auto col-auto>");
-// divForecast.attr("style", "max-width:15rem");
-// let divBody = $("<div class=\"card-body>");
-// divForecast.append(divBody);
-
-// let pForecast = $("<p>")
