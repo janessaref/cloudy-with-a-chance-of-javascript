@@ -25,13 +25,13 @@ $(document).ready(function() {
         // grabs the input value from the search bar
         let searchCity = $("#searchInput").val().trim();
 
-        if (searchCity == null) {
+        if (searchCity == "") {
             alert("invalid");
-            $("#searchInput").focus()
+            $("#searchInput")
         }
-        if (searchCity == cityArray.value) {
+        // if (searchCity == cityArray.value) {
 
-        }
+        // }
 
         currentWeather(searchCity);
         // $("#removeBtn").remove();
@@ -80,12 +80,6 @@ $(document).ready(function() {
                 renderButtons();
                 var uvBtn = $("#uvbutton");
                 uvBtn.html(response.value);
-                // uvBtn.attr("style", "height:80px");
-                // uvBtn.attr("style", "width:80px");
-                // uvBtn.attr("id", "removeBtn");
-
-
-                // $("#uvindex").text("UV Index: " + response.value);
 
                 var uvNumber = +response.value;
 
@@ -177,11 +171,14 @@ $(document).ready(function() {
     }
 
     $(document).on("click", ".newCityBtn", clickButtons);
+
+    // function invalidInput() {
+    //     if ($("#searchInput") == "") {
+    //         $("#error").html("Invalid input");
+    //         $("error").show();
+    //     } else {
+    //         $("error").html("");
+    //         $("error").hide();
+    //     }
+    // }
 });
-
-// let divForecast = $("<div class=\"card text-white bg-info mb-3 mx-auto col-auto>");
-// divForecast.attr("style", "max-width:15rem");
-// let divBody = $("<div class=\"card-body>");
-// divForecast.append(divBody);
-
-// let pForecast = $("<p>")
