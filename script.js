@@ -35,7 +35,6 @@ $(document).ready(function() {
             let wIcon = response.list[3].weather[0].icon;
             let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
             let wDescription = response.list[3].weather[0].description;
-            console.log(wDescription);
 
             // image tag for setting the weather icon
             let imgTag = $("<img>");
@@ -144,7 +143,6 @@ $(document).ready(function() {
             let wIcon = response.list[3].weather[0].icon;
             let iconLink = "http://openweathermap.org/img/wn/" + wIcon + "@2x.png";
             let wDescription = response.list[3].weather[0].description;
-            console.log(wDescription);
 
             let imgTag = $("<img>");
             imgTag.attr("src", iconLink);
@@ -239,9 +237,8 @@ $(document).ready(function() {
             for (let i = 1; i <= 5; i++) {
                 dailyForecast(i, response.list[responseNum]);
                 responseNum += 8;
-            }
+            };
         });
-
     };
 
     // function for five day forecast to be displayed on page

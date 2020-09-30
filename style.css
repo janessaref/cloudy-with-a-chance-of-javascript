@@ -20,15 +20,28 @@ ul {
     list-style-type: none;
 }
 
-.mainbox {
-    max-width: 800px;
-    height: 350px;
+.clear {
+    position: absolute;
+    top: 1%;
+    margin: 50px;
 }
 
 #addCityBtn {
     margin-right: 10px;
     margin-left: 10px;
     margin-top: 50px;
+}
+
+.mainbox {
+    max-width: 800px;
+    height: 350px;
+}
+
+
+/* colors for uv index display button */
+
+#uvbutton {
+    border-style: solid 2px;
 }
 
 .green {
@@ -59,14 +72,4 @@ ul {
     background-color: #6C49Cb;
     color: white;
     border-color: #6C49Cb;
-}
-
-#uvbutton {
-    border-style: solid 2px;
-}
-
-.clear {
-    position: absolute;
-    top: 1%;
-    margin: 50px;
 }
